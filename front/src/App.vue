@@ -15,8 +15,9 @@
       <div id="app">
         <GmapMap style="width: 100vw; height: 98vh;" :zoom="18" :center="{lat: lat, lng: lng}">
           <GmapMarker @click="dialog = true" v-for="(marker, index) in markers"
+            color="primary"
             :key="index"
-            :label="getRating(marker)"
+            label="temp"
             :position="marker.position"
             />
           <GmapMarker
