@@ -12,7 +12,7 @@
     </v-toolbar>
 
     <v-content>
-      <div id="app">
+      <!-- <div id="app">
         <GmapMap style="width: 100vw; height: 98vh;" :zoom="18" :center="{lat: lat, lng: lng}">
           <GmapMarker @click="dialog = true" v-for="(marker, index) in markers"
             color="primary"
@@ -35,8 +35,8 @@
           </GmapAutocomplete>
           <submit-dialog v-on:save="form_data  = $event; submit()" :location="place ? place.name : ''"/>
         </v-card>
-      </div>
-      <!-- <location-list/> -->
+      </div> -->
+      <location-list :data="markers"/>
     </v-content>
   </v-app>
 </template>
