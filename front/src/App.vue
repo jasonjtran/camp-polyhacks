@@ -31,9 +31,10 @@
         <v-card class="map-card">
           <GmapAutocomplete class="gmap" @place_changed="setPlace">
           </GmapAutocomplete>
-          <submit-dialog v-on:save="form_data = $event; submit()" :location="place ? place.address_components[0].long_name : ''"/>
+          <submit-dialog v-on:save="form_data  = $event; submit()" :location="place ? place.address_components[0].long_name : ''"/>
         </v-card>
       </div>
+      <!-- <location-list/> -->
     </v-content>
   </v-app>
 </template>
@@ -51,6 +52,7 @@ export default {
     HelloWorld,
     Fab,
     SubmitDialog,
+    LocationList,
   },
   data() {
     return {
@@ -73,6 +75,12 @@ export default {
     },
     setPlace(place) {
       this.place = place;
+      axios.get(this.dev)
+        .then(res => {
+          console.log(res)
+          this.markers.push(res.data[res.data.length - 1])
+        })
+        .catch(e => console.log(e))
     },
     usePlace(place) {
       if (this.place) {
