@@ -1,34 +1,120 @@
 <template>
-  <div id="app">
-    <v-content>
-      <gmap-map
-      style="width:1920px;height:1080px"
-      :center="center"
-      :zoom="10"
-    map-type-id="terrain"
-    >
-
-    </gmap-map>
-    </v-content>
+  <v-app>
     
-  </div>
+    <v-toolbar color="primary">
+    <v-toolbar-side-icon></v-toolbar-side-icon>
+    <v-toolbar-title>WheelWays</v-toolbar-title>
+    <v-spacer></v-spacer>
+    <v-toolbar-items class="hidden-sm-and-down">
+      <v-btn flat>Link One</v-btn>
+      <v-btn flat>Link Two</v-btn>
+      <v-btn flat>Link Three</v-btn>
+    </v-toolbar-items>
+  </v-toolbar>
 
+    <v-content>
+      <div id="app">
+        <GmapMap style="width: 100vw; height: 98vh;" :zoom="18" :center="{lat: lat, lng: lng}">
+          <GmapMarker v-for="(marker, index) in markers"
+            :key="index"
+            :position="marker.position"
+            />
+          <GmapMarker
+            v-if="this.place"
+            label="★"
+            :position="{
+              lat: this.place.geometry.location.lat(),
+              lng: this.place.geometry.location.lng(),
+            }"
+            />
+        </GmapMap>
+        <v-card class="map-card">
+          <GmapAutocomplete class="gmap" @place_changed="setPlace">
+            <v-text-field>Hello</v-text-field>
+          </GmapAutocomplete>
+          <v-btn color="primary" @click="submit">Add</v-btn>
+        </v-card>
+    </div>
+    </v-content>
+  </v-app>
 </template>
 
-
 <script>
+import axios from 'axios'
+import HelloWorld from './components/HelloWorld'
+import Fab from './components/Fab'
+
 export default {
-  data() {
+  name: 'App',
+  components: {
+    HelloWorld,
+    Fab,
+  },
+  data () {
     return {
-      center: {
-        lat: 10,
-        lng: 4, 
-      },
+      markers: [],
+      place: null,
+      lat: 0,
+      lng: 0,
+      dev: 'localhost:8000/map'
     }
+  },
+  methods: {
+    setDescription(description) {
+      this.description = description;
+    },
+    setPlace(place) {
+      this.place = place
+    },
+    usePlace(place) {
+      if (this.place) {
+        this.markers.push({
+          position: {
+            lat: this.place.geometry.location.lat(),
+            lng: this.place.geometry.location.lng(),
+          }
+        })
+        this.place = null;
+      }
+    },
+
+    submit() {
+      form_data = {
+        lat: this.place.geometry.location.lat(),
+        lng: this.place.geometry.location.lng(),
+        rating: 10,
+      }
+
+    axios.post(this.dev, form_data)
+
+    }
+  },
+
+  mounted() {
+    this.$getLocation()
+      .then(coordinates => {
+        this.lat = coordinates.lat
+        this.lng = coordinates.lng
+      })
   }
+
 }
 </script>
 
-<style>
+<style scoped>
+
+.map-card {
+  position: absolute;
+  top: 10px;
+  right: 0px;
+  z-index: 100;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.gmap {
+  margin-left: 20px;
+}
 
 </style>
+

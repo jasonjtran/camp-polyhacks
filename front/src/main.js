@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import './plugins/vuetify'
+import './plugins/vuetify'
 import App from './App.vue'
+import VueGeolocation from 'vue-browser-geolocation'
 
 Vue.config.productionTip = false
 
@@ -12,6 +14,8 @@ Vue.use(VueGoogleMaps, {
     libraries: 'places', // This is required if you use the Autocomplete plugin
   },
 })
+
+Vue.use(VueGeolocation)
 
 new Vue({
   render: h => h(App),
