@@ -44,7 +44,14 @@ app.get("/", function (req, res, next) {
 });
 
 app.get("/map", function (req, res, next) {
-    res.send("map");
+    Point.find(function(err, points) {
+        if(err) {
+            console.log(err);
+        }
+        else {
+            res.json(points);
+        }
+    })
 });
 
 app.post("/map", function (req, res, next) {
