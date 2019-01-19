@@ -34,7 +34,8 @@ var pointSchema = new mongoose.Schema({
         lat: Number,
         lng: Number
     },
-    rating: String
+    rating: String,
+    comment: String
 });
 
 var Point = mongoose.model("Point", pointSchema);
@@ -64,6 +65,7 @@ app.post("/map", function (req, res, next) {
             lng: search.position.lng,
         },
         rating: search.rating,
+        comment: search.comment
     }, function(err, point) {
         if (err) {
             res.status(400).send("Error when saving to database");
@@ -74,6 +76,11 @@ app.post("/map", function (req, res, next) {
         }
     })
  });
+
+//  app.put("/map/:id", function(req, res, next) {
+//     var id = req.query.id;
+//     Point.find({_id: id}).update
+//  });
 
 // Start server
 app.listen(3000, function () {
