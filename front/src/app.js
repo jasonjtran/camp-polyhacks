@@ -7,11 +7,11 @@ var express = require('express'),
 
 app.use(express.json());
 
-var cors = require("cors");
 app.use(cors({
     origin: true,
     credentials: true
 }));
+
 var allowCrossDomain = function (req, res, next) {
     res.header('Access-Control-Allow-Origin', "*");
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
@@ -30,8 +30,10 @@ mongoose.connect(url, {
 });
 
 var pointSchema = new mongoose.Schema({
-    lat: Number,
-    long: Number,
+    position: {
+        lat: Number,
+        lng: Number
+    },
     rating: Number
 });
 
@@ -57,8 +59,10 @@ app.get("/map", function (req, res, next) {
 app.post("/map", function (req, res, next) {
     var search = req.body;
     Point.create({
-        lat: search.lat,
-        long: search.lng,
+        position: {
+            lat: search.lat,
+            lng: search.lng
+        },
         rating: search.rating
     }, function(err, point) {
         if (err) {
