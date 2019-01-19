@@ -17,6 +17,7 @@
         <GmapMap style="width: 100vw; height: 98vh;" :zoom="18" :center="{lat: lat, lng: lng}">
           <GmapMarker v-for="(marker, index) in markers"
             :key="index"
+            :label="getRating(marker)"
             :position="marker.position"
             />
           <GmapMarker
@@ -30,9 +31,8 @@
         </GmapMap>
         <v-card class="map-card">
           <GmapAutocomplete class="gmap" @place_changed="setPlace">
-            <v-text-field>Hello</v-text-field>
           </GmapAutocomplete>
-          <v-btn color="primary" @click="submit">Add</v-btn>
+          <submit-dialog :location="place ? place.address_components[0].long_name : ''"/>
         </v-card>
     </div>
     </v-content>
@@ -43,12 +43,14 @@
 import axios from 'axios'
 import HelloWorld from './components/HelloWorld'
 import Fab from './components/Fab'
+import SubmitDialog from './components/SubmitDialog'
 
 export default {
   name: 'App',
   components: {
     HelloWorld,
     Fab,
+    SubmitDialog,
   },
   data () {
     return {
@@ -56,10 +58,14 @@ export default {
       place: null,
       lat: 0,
       lng: 0,
-      dev: 'localhost:8000/map'
+      dev: 'localhost:8000/map',
+      place: '',
     }
   },
   methods: {
+    getRating() {
+      return 10
+    },
     setDescription(description) {
       this.description = description;
     },
@@ -79,12 +85,11 @@ export default {
     },
 
     submit() {
-      form_data = {
+      let form_data = {
         lat: this.place.geometry.location.lat(),
         lng: this.place.geometry.location.lng(),
         rating: 10,
       }
-
     axios.post(this.dev, form_data)
 
     }
@@ -96,6 +101,15 @@ export default {
         this.lat = coordinates.lat
         this.lng = coordinates.lng
       })
+
+      axios.get(this.dev)
+        .then(res => {
+          console.log(res)
+          for (let mark of res.data) {
+            this.markers.push(mark)
+          }
+        })
+        .catch(e => console.log(e))
   }
 
 }
@@ -114,6 +128,7 @@ export default {
 
 .gmap {
   margin-left: 20px;
+  width: 250px;
 }
 
 </style>
