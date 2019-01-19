@@ -1,38 +1,34 @@
 <template>
-  <v-app>
-    <v-toolbar app>
-      <v-toolbar-title class="headline text-uppercase">
-        <span>Vuetify</span>
-        <span class="font-weight-light">MATERIAL DESIGN</span>
-      </v-toolbar-title>
-      <v-spacer></v-spacer>
-      <v-btn
-        flat
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-      >
-        <span class="mr-2">Latest Release</span>
-      </v-btn>
-    </v-toolbar>
-
+  <div id="app">
     <v-content>
-      <HelloWorld/>
+      <gmap-map
+      style="width:500px;height:500px"
+      :center="center"
+      :zoom="7"
+    map-type-id="terrain"
+    >
+
+    </gmap-map>
     </v-content>
-  </v-app>
+    
+  </div>
+
 </template>
 
-<script>
-import HelloWorld from './components/HelloWorld'
 
+<script>
 export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  },
-  data () {
+  data() {
     return {
-      //
+      center: {
+        lat: 10,
+        lng: 4, 
+      },
     }
   }
 }
 </script>
+
+<style>
+
+</style>
