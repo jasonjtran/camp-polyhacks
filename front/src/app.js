@@ -4,18 +4,31 @@ var express = require('express'),
     mongoose = require("mongoose"),
     app = express();
 
-var url = "mongodb://localhost:27017/yelpcamp";
+var url = "mongodb://localhost:27017/wheelways";
 mongoose.connect(url, {
     useNewUrlParser: true
 });
 
-var campSchema = new mongoose.Schema({
-    name: String,
-    image: String,
-    description: String
+var pointSchema = new mongoose.Schema({
+    lat: Number,
+    long: Number,
+    rating: Number
 });
+// 33.9987428, 10
+var Point = mongoose.model("Point", pointSchema);
 
-var Camp = mongoose.model("Camp", campSchema);
+Point.create({
+    lat: 33.9987428,
+    long: 10,
+    rating: 4.5
+}, function (err, point) {
+    if (err) {
+        console.log(err);
+    } else {
+        console.log("added point to database");
+        console.log(point);
+    }
+});
 
 app.use(bodyParser.urlencoded({
     extended: true
@@ -23,7 +36,8 @@ app.use(bodyParser.urlencoded({
 
 // ROUTES
 app.get("/", function (req, res) {
-    res.sendFile(path.join(__dirname + "/../public/landing.html"));
+    // res.sendFile(path.join(__dirname + "/../public/landing.html"));
+    res.redirect("/map");
 });
 
 app.get("/map", function (req, res) {
