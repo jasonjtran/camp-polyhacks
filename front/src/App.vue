@@ -31,7 +31,7 @@
         <v-card class="map-card">
           <GmapAutocomplete class="gmap" @place_changed="setPlace">
           </GmapAutocomplete>
-          <submit-dialog :location="place ? place.address_components[0].long_name : ''"/>
+          <submit-dialog v-on:save="rating = $event; submit()" :location="place ? place.address_components[0].long_name : ''"/>
         </v-card>
       </div>
     </v-content>
@@ -59,6 +59,7 @@ export default {
       lng: 0,
       dev: 'localhost:8000/map',
       place: '',
+      rating: '',
     }
   },
   methods: {
@@ -87,7 +88,7 @@ export default {
       let form_data = {
         lat: this.place.geometry.location.lat(),
         lng: this.place.geometry.location.lng(),
-        rating: 10,
+        rating: this.rating,
       }
     axios.post(this.dev, form_data)
 
