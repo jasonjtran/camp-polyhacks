@@ -14,7 +14,7 @@
     <v-content>
       <div id="app">
         <GmapMap style="width: 100vw; height: 98vh;" :zoom="18" :center="{lat: lat, lng: lng}">
-          <GmapMarker v-for="(marker, index) in markers"
+          <GmapMarker @click="dialog = true" v-for="(marker, index) in markers"
             :key="index"
             :label="getRating(marker)"
             :position="marker.position"
@@ -31,7 +31,7 @@
         <v-card class="map-card">
           <GmapAutocomplete class="gmap" @place_changed="setPlace">
           </GmapAutocomplete>
-          <submit-dialog v-on:save="rating = $event; submit()" :location="place ? place.address_components[0].long_name : ''"/>
+          <submit-dialog v-on:save="form_data = $event; submit()" :location="place ? place.address_components[0].long_name : ''"/>
         </v-card>
       </div>
     </v-content>
@@ -43,6 +43,7 @@ import axios from 'axios'
 import HelloWorld from './components/HelloWorld'
 import Fab from './components/Fab'
 import SubmitDialog from './components/SubmitDialog'
+import LocationList from './components/LocationList'
 
 export default {
   name: "App",
@@ -53,19 +54,20 @@ export default {
   },
   data() {
     return {
+      dialog: false,
       markers: [],
       place: null,
       lat: 0,
       lng: 0,
       dev: 'http://localhost:3000/map',
       place: '',
-      rating: '',
+      form_data: {
+        selection: '',
+        comment: '',
+      }
     }
   },
   methods: {
-    getRating() {
-      return "10"
-    },
     setDescription(description) {
       this.description = description;
     },
@@ -90,7 +92,8 @@ export default {
           lat: this.place.geometry.location.lat(),
           lng: this.place.geometry.location.lng(),
         },
-        rating: this.rating,
+        rating: this.form_data.selection,
+        comment: this.form_data.comment,
       }
       console.log(form_data)
     axios.post(this.dev, form_data)

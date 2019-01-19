@@ -8,9 +8,9 @@
         <v-card-text>
           <v-container grid-list-md>
             <v-layout wrap>
-              <v-select required :items="items" placeholder="Accessibility" v-model="selection"></v-select>
+              <v-select required :items="items" placeholder="Accessibility" v-model="form_data.selection"></v-select>
             </v-layout>
-              <v-textarea placeholder="Additional Comments"></v-textarea>
+              <v-textarea placeholder="Additional Comments" v-model="form_data.comment"></v-textarea>
           </v-container>
           <small>*indicates required field</small>
         </v-card-text>
@@ -29,6 +29,10 @@ export default {
     data() {
         return {
             selection: '',
+            form_data: {
+              selection: '',
+              comment: '',
+            },
             items: ['Highly Accesible', 'Mildly Accessible', 'Not Accessible'],
             dialog: false,
         }
@@ -37,7 +41,7 @@ export default {
     methods: {
       save() {
         this.dialog = false
-        this.$emit('save', this.selection)
+        this.$emit('save', this.form_data)
       },
     }
 }
