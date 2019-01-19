@@ -10,6 +10,7 @@
   "dependencies": {
     "body-parser": "^1.18.3",
     "express": "^4.16.4",
+    "path": "^0.12.7",
     "register-service-worker": "^1.5.2",
     "vue": "^2.5.21",
     "vuetify": "^1.3.0"
