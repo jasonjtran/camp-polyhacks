@@ -30,6 +30,7 @@ mongoose.connect(url, {
 });
 
 var pointSchema = new mongoose.Schema({
+    name: String,
     position: {
         lat: Number,
         lng: Number
@@ -60,6 +61,7 @@ app.get("/map", function (req, res, next) {
 app.post("/map", function (req, res, next) {
     var search = req.body;
     Point.create({
+        name: search.name,
         position: {
             lat: search.position.lat,
             lng: search.position.lng,
