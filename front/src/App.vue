@@ -57,14 +57,14 @@ export default {
       place: null,
       lat: 0,
       lng: 0,
-      dev: 'localhost:8000/map',
+      dev: 'http://localhost:3000/map',
       place: '',
       rating: '',
     }
   },
   methods: {
     getRating() {
-      return 10
+      return "10"
     },
     setDescription(description) {
       this.description = description;
@@ -86,14 +86,15 @@ export default {
 
     submit() {
       let form_data = {
-        lat: this.place.geometry.location.lat(),
-        lng: this.place.geometry.location.lng(),
+        position: {
+          lat: this.place.geometry.location.lat(),
+          lng: this.place.geometry.location.lng(),
+        },
         rating: this.rating,
       }
+      console.log(form_data)
     axios.post(this.dev, form_data)
-
-      axios.post(this.dev, form_data)
-        .then(res => {
+    .then(res => {
           console.log(res)
         })
         .catch(e => console.log(e))
