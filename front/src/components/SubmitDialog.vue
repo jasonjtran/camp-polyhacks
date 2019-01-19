@@ -8,7 +8,7 @@
         <v-card-text>
           <v-container grid-list-md>
             <v-layout wrap>
-              <v-select :items="items" placeholder="Accessibility"></v-select>
+              <v-select required :items="items" placeholder="Accessibility" v-model="selection"></v-select>
             </v-layout>
           </v-container>
           <small>*indicates required field</small>
@@ -27,6 +27,7 @@ export default {
     props: ['location'],
     data() {
         return {
+            selection: '',
             items: ['Highly Accesible', 'Mildly Accessible', 'Not Accessible'],
             dialog: false,
         }
