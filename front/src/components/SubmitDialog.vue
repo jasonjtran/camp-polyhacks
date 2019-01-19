@@ -10,6 +10,7 @@
             <v-layout wrap>
               <v-select required :items="items" placeholder="Accessibility" v-model="selection"></v-select>
             </v-layout>
+              <v-textarea placeholder="Additional Comments"></v-textarea>
           </v-container>
           <small>*indicates required field</small>
         </v-card-text>
