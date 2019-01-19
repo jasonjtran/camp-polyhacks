@@ -42,6 +42,8 @@ export default {
       save() {
         this.dialog = false
         this.$emit('save', this.form_data)
+        this.form_data.selection = ''
+        this.form_data.comment = ''
       },
     }
 }
