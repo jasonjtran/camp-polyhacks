@@ -2,7 +2,7 @@
   <v-app>
     <v-toolbar color="primary">
       <v-toolbar-side-icon></v-toolbar-side-icon>
-      <v-toolbar-title>WheelWays</v-toolbar-title>
+      <a href="/"  style="height:60%;"><img src="../../assets/logo_website.png" alt="WheelWay" style="height:100%"/></a>
       <v-spacer></v-spacer>
       <v-toolbar-items class="hidden-sm-and-down">
         <v-btn flat>Link One</v-btn>
@@ -21,6 +21,7 @@
             />
           <GmapMarker
             v-if="this.place"
+            ref="myMarker"
             label="★"
             :position="{
               lat: this.place.geometry.location.lat(),
@@ -31,7 +32,7 @@
         <v-card class="map-card">
           <GmapAutocomplete class="gmap" @place_changed="setPlace">
           </GmapAutocomplete>
-          <submit-dialog v-on:save="form_data  = $event; submit()" :location="place ? place.address_components[0].long_name : ''"/>
+          <submit-dialog v-on:save="form_data  = $event; submit()" :location="place ? place.name : ''"/>
         </v-card>
       </div>
       <!-- <location-list/> -->
@@ -45,6 +46,7 @@ import HelloWorld from './components/HelloWorld'
 import Fab from './components/Fab'
 import SubmitDialog from './components/SubmitDialog'
 import LocationList from './components/LocationList'
+import {gmapApi} from 'vue2-google-maps'
 
 export default {
   name: "App",
@@ -54,8 +56,12 @@ export default {
     SubmitDialog,
     LocationList,
   },
+  computed: {
+    google: gmapApi
+  },
   data() {
     return {
+      addy: '',
       dialog: false,
       markers: [],
       place: null,
@@ -96,6 +102,7 @@ export default {
 
     submit() {
       let form_data = {
+        name: this.place.name,
         position: {
           lat: this.place.geometry.location.lat(),
           lng: this.place.geometry.location.lng(),
