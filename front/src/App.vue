@@ -1,16 +1,15 @@
 <template>
   <v-app>
-    
     <v-toolbar color="primary">
-    <v-toolbar-side-icon></v-toolbar-side-icon>
-    <v-toolbar-title>WheelWays</v-toolbar-title>
-    <v-spacer></v-spacer>
-    <v-toolbar-items class="hidden-sm-and-down">
-      <v-btn flat>Link One</v-btn>
-      <v-btn flat>Link Two</v-btn>
-      <v-btn flat>Link Three</v-btn>
-    </v-toolbar-items>
-  </v-toolbar>
+      <v-toolbar-side-icon></v-toolbar-side-icon>
+      <v-toolbar-title>WheelWays</v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-toolbar-items class="hidden-sm-and-down">
+        <v-btn flat>Link One</v-btn>
+        <v-btn flat>Link Two</v-btn>
+        <v-btn flat>Link Three</v-btn>
+      </v-toolbar-items>
+    </v-toolbar>
 
     <v-content>
       <div id="app">
@@ -27,14 +26,14 @@
               lat: this.place.geometry.location.lat(),
               lng: this.place.geometry.location.lng(),
             }"
-            />
+          />
         </GmapMap>
         <v-card class="map-card">
           <GmapAutocomplete class="gmap" @place_changed="setPlace">
           </GmapAutocomplete>
           <submit-dialog :location="place ? place.address_components[0].long_name : ''"/>
         </v-card>
-    </div>
+      </div>
     </v-content>
   </v-app>
 </template>
@@ -46,13 +45,13 @@ import Fab from './components/Fab'
 import SubmitDialog from './components/SubmitDialog'
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
     HelloWorld,
     Fab,
     SubmitDialog,
   },
-  data () {
+  data() {
     return {
       markers: [],
       place: null,
@@ -70,16 +69,16 @@ export default {
       this.description = description;
     },
     setPlace(place) {
-      this.place = place
+      this.place = place;
     },
     usePlace(place) {
       if (this.place) {
         this.markers.push({
           position: {
             lat: this.place.geometry.location.lat(),
-            lng: this.place.geometry.location.lng(),
+            lng: this.place.geometry.location.lng()
           }
-        })
+        });
         this.place = null;
       }
     },
@@ -92,6 +91,11 @@ export default {
       }
     axios.post(this.dev, form_data)
 
+      axios.post(this.dev, form_data)
+        .then(res => {
+          console.log(res)
+        })
+        .catch(e => console.log(e))
     }
   },
 
@@ -111,12 +115,10 @@ export default {
         })
         .catch(e => console.log(e))
   }
-
-}
+};
 </script>
 
 <style scoped>
-
 .map-card {
   position: absolute;
   top: 10px;
@@ -130,6 +132,5 @@ export default {
   margin-left: 20px;
   width: 250px;
 }
-
 </style>
 
