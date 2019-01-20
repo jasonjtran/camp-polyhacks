@@ -1,11 +1,11 @@
 <template>
   <v-app>
-    <v-toolbar color="primary">
-      <v-toolbar-side-icon></v-toolbar-side-icon>
+    <v-toolbar color="#0092A6">
+      <!-- <v-toolbar-side-icon class="white"></v-toolbar-side-icon> -->
       <a href="/"  style="height:60%;"><img src="../../assets/logo_website.png" alt="WheelWay" style="height:100%"/></a>
       <v-spacer></v-spacer>
       <v-toolbar-items class="hidden-sm-and-down">
-        <v-btn flat href="/locations">Get Locations</v-btn>
+        <v-btn flat href="/locations" color="white">Get Locations</v-btn>
       </v-toolbar-items>
     </v-toolbar>
 
@@ -15,7 +15,7 @@
           <GmapMarker @click="dialog = true" v-for="(marker, index) in markers"
             color="primary"
             :key="index"
-            label="temp"
+            label="*"
             :position="marker.position"
             />
           <GmapMarker
@@ -34,7 +34,7 @@
           <submit-dialog v-on:save="form_data  = $event; submit()" :location="place ? place.name : ''"/>
         </v-card>
       </div>
-      <location-list :data="markers"/>
+      <location-list :data="markers" v-if="page === '/locations'"/>
     </v-content>
   </v-app>
 </template>

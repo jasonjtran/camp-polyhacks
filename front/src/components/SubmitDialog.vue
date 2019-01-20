@@ -1,6 +1,6 @@
 <template>
     <v-dialog v-model="dialog" persistent max-width="600px">
-      <v-btn slot="activator" color="primary" dark>Add</v-btn>
+      <v-btn slot="activator" color="#0092A6" dark>Add</v-btn>
       <v-card>
         <v-card-title>
           <span class="headline" v-if="!!location" style="text-align:center;">Rate {{ location }}'s Accessibility</span>
@@ -16,8 +16,8 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" flat @click="dialog = false">Close</v-btn>
-          <v-btn color="blue darken-1" flat @click="save">Save</v-btn>
+          <v-btn color="#0092A6" flat @click="dialog = false">Close</v-btn>
+          <v-btn color="#0092A6" flat @click="save">Save</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
