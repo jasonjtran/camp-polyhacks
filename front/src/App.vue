@@ -5,15 +5,13 @@
       <a href="/"  style="height:60%;"><img src="../../assets/logo_website.png" alt="WheelWay" style="height:100%"/></a>
       <v-spacer></v-spacer>
       <v-toolbar-items class="hidden-sm-and-down">
-        <v-btn flat>Link One</v-btn>
-        <v-btn flat>Link Two</v-btn>
-        <v-btn flat>Link Three</v-btn>
+        <v-btn flat href="/locations">Get Locations</v-btn>
       </v-toolbar-items>
     </v-toolbar>
 
     <v-content>
-      <!-- <div id="app">
-        <GmapMap style="width: 100vw; height: 98vh;" :zoom="18" :center="{lat: lat, lng: lng}">
+      <div id="app" v-if="page !== '/locations'">
+        <GmapMap style="width: 100vw; height: 98vh;" :zoom="18" :center="{lat: lat, lng: lng}" >
           <GmapMarker @click="dialog = true" v-for="(marker, index) in markers"
             color="primary"
             :key="index"
@@ -35,7 +33,7 @@
           </GmapAutocomplete>
           <submit-dialog v-on:save="form_data  = $event; submit()" :location="place ? place.name : ''"/>
         </v-card>
-      </div> -->
+      </div>
       <location-list :data="markers"/>
     </v-content>
   </v-app>
@@ -48,6 +46,7 @@ import Fab from './components/Fab'
 import SubmitDialog from './components/SubmitDialog'
 import LocationList from './components/LocationList'
 import {gmapApi} from 'vue2-google-maps'
+import NavDrawer from './components/NavDrawer'
 
 export default {
   name: "App",
@@ -56,12 +55,14 @@ export default {
     Fab,
     SubmitDialog,
     LocationList,
+    NavDrawer,
   },
   computed: {
     google: gmapApi
   },
   data() {
     return {
+      page: '',
       addy: '',
       dialog: false,
       markers: [],
@@ -126,6 +127,9 @@ export default {
         this.lat = coordinates.lat
         this.lng = coordinates.lng
       })
+
+    this.page = window.location.pathname
+    console.log(this.page)
 
       axios.get(this.dev)
         .then(res => {
